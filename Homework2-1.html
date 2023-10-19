@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <canvas id = "canvas" height = "500" width = "500" ></canvas>
+        <script> 
+            var canvas = document.getElementById("canvas");//get the canvas
+            var ctx = canvas.getContext("2d");//get the context
+            var radius = canvas.height / 2;//get the radius
+            ctx.font = "68px Times New Roman";//set the font
+            setInterval(spin,0.003);//set the interval (animates the logo)
+
+            //spin the logo
+            function spin(){
+                ctx.clearRect(0,0,canvas.width,canvas.height);//clear the canvas
+                drawOut(ctx,radius);//draw the outer circle
+                drawIn(ctx,radius);//draw the inner circle
+                drawRotation(ctx,radius);
+            }
+
+            function drawOut(ctx, radius)
+            {
+                ctx.strokeStyle = "rgba(128, 0, 0)";//set the color
+                ctx.lineWidth = 4.0;//set the line width
+                ctx.beginPath();//start the path
+                ctx.arc(radius,radius, 170, 0, 2 * Math.PI);//draw the circle
+                ctx.stroke();//draw the circle
+                ctx.moveTo(radius, radius);//move to the center
+                ctx.beginPath();//start the path
+                ctx.arc(radius, radius, 245, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+            function drawIn(ctx, radius)
+            {
+                 //draw the text along the arc
+                function drawTextAlongArc(ctx, str, x, y, radius, radian){    
+                    var length = str.length,//get the length of the string
+                    string;
+                    ctx.save();//save the context
+                    ctx.translate(x, y);//translate the context
+                    ctx.rotate(-2.7 * radian / 2);//rotate the context
+                    ctx.rotate(-1 * (radian / length) / 2);//rotate the context
+                    for (var a = 0; a < length; a++) {//loop through the string
+                        ctx.rotate(radian / length);//rotate the context
+                        ctx.save();//save the context
+                        ctx.translate(0, -1 * radius);//translate the context
+                        string = str[a];//get the character
+                        ctx.fillText(string, 0, 0);//draw the character
+                        ctx.restore();//restore the context
+                        }
+                    ctx.restore();//restore the context
+                }
+
+                ctx.textAlign = 'center';//set the alignment
+                ctx.fillStyle = "rgba(128, 0, 0)";//set the color
+                ctx.strokeStyle = "rgba(128, 0, 0)";//set the color
+                ctx.lineWidth = 4;//set the line width
+                drawTextAlongArc(ctx, 'SANTA CLARA UNIVERISTY⋅1851⋅', radius, radius, 180, 2* Math.PI);//draw the text
+
+
+                //function to draw a line of stars give the staring x,y corrdinates, size, and number of stars
+                function drawStar(x, y, size, ctx){
+                    ctx.fillStyle = "rgba(128, 0, 0)";//set the color maroon
+                    ctx.beginPath();//start the path
+                    ctx.moveTo(108/size + x, 0.0/size  + y);//move to the starting point
+                    ctx.lineTo(141/size  + x, 70/size  + y);//draw the line
+                    ctx.lineTo(218/size  + x, 78.3/size  + y);//draw the line
+                    ctx.lineTo(162/size  + x, 131/size  + y);//draw the line...
+                    ctx.lineTo(175/size  + x, 205/size  + y);
+                    ctx.lineTo(108/size  + x, 170/size  + y);
+                    ctx.lineTo(41.2/size  + x, 205/size  + y);
+                    ctx.lineTo(55/size  + x, 131/size   + y);
+                    ctx.lineTo(1/size  + x, 78/size  + y);
+                    ctx.lineTo(75/size  + x, 68/size  + y);
+                    ctx.lineTo(108/size  + x, 0/size  + y);
+                    ctx.closePath();//close the path
+                    ctx.fill();//fill the star
+                }
+
+                //insert the stars on the logo
+            function insertStars(xCoord, yCoord, numberOStars, ctx){
+                x = xCoord, y = yCoord, num = numberOStars;//set the variables
+                for(var i = 1; i <= num; i ++){//loop through the number of stars
+                    drawStar(x, y, 6, ctx);//draw the star
+                    x += 75;//increment the x coordinate
+                }
+            }
+
+                insertStars(195, 90, 2, ctx);//insert the 2 stars
+                insertStars(155, 110, 3, ctx);//insert the 3 stars
+                insertStars(120, 135, 4, ctx);//insert the 4 stars
+
+            }
+
+            //draw the rotation
+            function drawRotation(ctx, radius)
+            {
+
+                ctx.translate(radius, radius);//translate the context back to the center
+                ctx.rotate(0.002);//rotate the context
+                ctx.translate(-1*radius, -1*radius);//translate the context back to the original position
+ 
+
+            }
+
+            
+        </script>
+    </body>
+</html>
